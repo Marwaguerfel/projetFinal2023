@@ -31,6 +31,10 @@ class Hotel
     #[ORM\OneToMany(mappedBy: 'hotel', targetEntity: Room::class)]
     private Collection $rooms;
 
+    #[ORM\ManyToOne(inversedBy: 'hotel_id')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Staff $staff = null;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -115,6 +119,18 @@ class Hotel
                 $room->setHotel(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStaff(): ?Staff
+    {
+        return $this->staff;
+    }
+
+    public function setStaff(?Staff $staff): static
+    {
+        $this->staff = $staff;
 
         return $this;
     }
